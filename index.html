@@ -46,6 +46,8 @@
     <div class="game-container">
         <div id="board"></div>
         <button onclick="resetBoard()">Reset</button>
+        <button onclick="toggleMute()" id="mute-button">Mute</button>
+        
       </div>
       <h1 id="winner"></h1>
       <h1>Kanye West Tic-Tac-Toe</h1>
@@ -57,7 +59,14 @@
       let gameend = false;
 
       let currentPlayer = "X";
+      
+      let isMuted = false;
 
+      function toggleMute() {
+        isMuted = !isMuted;
+        document.getElementById("mute-button").innerText = isMuted ? "Unmute" : "Mute";
+      }
+        
       function drawBoard() {
         document.getElementById("board").innerHTML = "";
         for (let i = 0; i < 3; i++) {
@@ -70,6 +79,7 @@
             row.appendChild(cell);
           }
           document.getElementById("board").appendChild(row);
+          
         }
       }
 
@@ -80,11 +90,16 @@
           board[index] = currentPlayer;
           currentPlayer = currentPlayer === "X" ? "O" : "X";
           drawBoard();
-          document.getElementById('move-sound').play();
+          if (!isMuted) {
+            document.getElementById('move-sound').play();
+
+          }
           if (checkWin()) {
             gameend = true;
             const winner = currentPlayer === "X" ? "O" : "X";
-            document.getElementById('win-sound').play();
+            if(!isMuted) {
+              document.getElementById('win-sound').play();
+            }
             alert("Game Over. " + winner + " win!");
           }
         }
