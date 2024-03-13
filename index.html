@@ -53,7 +53,8 @@
           currentPlayer = currentPlayer === "X" ? "O" : "X";
           drawBoard();
           if (checkWin()) {
-            alert("Game Over. " + currentPlayer === "X" ? "O" : "X" + " wins!");
+            const winner = currentPlayer === "X" ? "O" : "X";
+            alert("Game Over. " + winner + " win!");
           }
         }
       }
