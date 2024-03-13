@@ -21,6 +21,8 @@
         line-height: 150px;
         text-align: center;
         font-size: 150px;
+        border-color: tomato;
+        color: aqua;
       }
     </style>
   </head>
@@ -30,6 +32,8 @@
     <h1 id="winner"></h1>
     <script>
       let board = ["", "", "", "", "", "", "", "", ""];
+      let gameend = false;
+
       let currentPlayer = "X";
 
       function drawBoard() {
@@ -48,11 +52,12 @@
       }
 
       function makeMove(index) {
-        if (board[index] === "") {
+        if (board[index] === "" && !gameend) {
           board[index] = currentPlayer;
           currentPlayer = currentPlayer === "X" ? "O" : "X";
           drawBoard();
           if (checkWin()) {
+            gameend = true;
             const winner = currentPlayer === "X" ? "O" : "X";
             alert("Game Over. " + winner + " win!");
           }
@@ -83,7 +88,7 @@
       function resetBoard() {
         board = ["", "", "", "", "", "", "", "", ""];
         currentPlayer = "X";
-
+        gameend = false;
         drawBoard();
       }
 
