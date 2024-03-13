@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .row {
+        display: flex;
+      }
+      .row > div {
+        width: 60px;
+        height: 60px;
+        border: 1px solid;
+        line-height: 60px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="board"></div>
+    <button onclick="resetBoard()">Reset</button>
+    <h1 id="winner"></h1>
+    <script>
+      let board = ["", "", "", "", "", "", "", "", ""];
+      let currentPlayer = "X";
+
+      function drawBoard() {
+        document.getElementById("board").innerHTML = "";
+        for (let i = 0; i < 3; i++) {
+          let row = document.createElement("div");
+          row.className = "row";
+          for (let j = 0; j < 3; j++) {
+            let cell = document.createElement("div");
+            cell.innerHTML = board[i * 3 + j];
+            cell.addEventListener("click", () => makeMove(i * 3 + j));
+            row.appendChild(cell);
+          }
+          document.getElementById("board").appendChild(row);
+        }
+      }
+
+      function makeMove(index) {
+        if (board[index] === "") {
+          board[index] = currentPlayer;
+          currentPlayer = currentPlayer === "X" ? "O" : "X";
+          drawBoard();
+          if (checkWin()) {
+            alert("Game Over. " + currentPlayer === "X" ? "O" : "X" + " wins!");
+          }
+        }
+      }
+
+      function checkWin() {
+        const winningCombinations = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8],
+          [0, 3, 6],
+          [1, 4, 7],
+          [2, 5, 8],
+          [0, 4, 8],
+          [2, 4, 6],
+        ];
+
+        for (let i = 0; i < winningCombinations.length; i++) {
+          const [a, b, c] = winningCombinations[i];
+          if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function resetBoard() {
+        board = ["", "", "", "", "", "", "", "", ""];
+        currentPlayer = "X";
+
+        drawBoard();
+      }
+
+      drawBoard();
+    </script>
+  </body>
+</html>
